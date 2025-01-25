@@ -21,10 +21,10 @@ $RECYCLE.BIN/
 *.sublime-project
 
 # Ignore Jekyll build files
-_site/
-.jekyll-cache/
+_site
+.jekyll-cache
 .jekyll-metadata
-.sass-cache/
+.sass-cache
 
 # Ignore environment files
 .env
@@ -51,3 +51,4 @@ vendor/
 # Ignore temp files
 *.tmp
 *.bak
+
