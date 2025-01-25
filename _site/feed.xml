@@ -1,1 +1,152 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-01-25T01:57:23+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">davbauer’s blog</title><subtitle>A blog by David, where I share programming insights, helpful solutions, and ideas that inspire. Explore articles and resources for developers of all levels.</subtitle><entry><title type="html">Hi There! My First Blog Entry</title><link href="http://localhost:4000/typescript/testing/2025/01/25/first-test-blogpost.html" rel="alternate" type="text/html" title="Hi There! My First Blog Entry" /><published>2025-01-25T01:23:37+01:00</published><updated>2025-01-25T01:23:37+01:00</updated><id>http://localhost:4000/typescript/testing/2025/01/25/first-test-blogpost</id><content type="html" xml:base="http://localhost:4000/typescript/testing/2025/01/25/first-test-blogpost.html"><![CDATA[<p>Hi there! This is my first blog entry, and its entire purpose is for testing and setting up my blog. I used <a href="https://jekyllrb.com/">Jekyll</a> as the base for this blog, and I’m hosting it directly on GitHub Pages. It’s a simple yet powerful solution for anyone looking to set up a personal blog.</p>]]></content><author><name></name></author><category term="typescript" /><category term="testing" /><summary type="html"><![CDATA[Hi there! This is my first blog entry, and its entire purpose is for testing and setting up my blog. I used Jekyll as the base for this blog, and I’m hosting it directly on GitHub Pages. It’s a simple yet powerful solution for anyone looking to set up a personal blog.]]></summary></entry></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-01-25T02:05:06+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">davbauer’s blog</title><subtitle>A blog by David, where I share programming insights, helpful solutions, and ideas that inspire. Explore articles and resources for developers of all levels.</subtitle><entry><title type="html">Solutions for Handling or Importing Data Without Using the ‘COPY’ Command</title><link href="http://localhost:4000/sql/parameter/limit/error/postgressql/postgres/jsonb_to_recordset/insert/batch/2025/01/25/importing-data-without-copy-postgresql-parameter-limit-65536.html" rel="alternate" type="text/html" title="Solutions for Handling or Importing Data Without Using the ‘COPY’ Command" /><published>2025-01-25T02:00:01+01:00</published><updated>2025-01-25T02:00:01+01:00</updated><id>http://localhost:4000/sql/parameter/limit/error/postgressql/postgres/jsonb_to_recordset/insert/batch/2025/01/25/importing-data-without-copy-postgresql-parameter-limit-65536</id><content type="html" xml:base="http://localhost:4000/sql/parameter/limit/error/postgressql/postgres/jsonb_to_recordset/insert/batch/2025/01/25/importing-data-without-copy-postgresql-parameter-limit-65536.html"><![CDATA[<h1 id="potential-causesexamples-for-the-error">Potential causes/examples for the error</h1>
+
+<p>Here are some of the most common scenarios that can result in the following errors:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bind</span> <span class="n">message</span> <span class="n">has</span> <span class="mi">65536</span> <span class="k">parameter</span> <span class="n">formats</span> <span class="n">but</span> <span class="mi">0</span> <span class="k">parameters</span>
+</code></pre></div></div>
+
+<p>or</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bind</span> <span class="n">message</span> <span class="n">supplies</span> <span class="mi">65536</span> <span class="k">parameters</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">prepared</span> <span class="k">statement</span> <span class="nv">""</span> <span class="n">requires</span> <span class="mi">0</span>
+</code></pre></div></div>
+
+<h2 id="example-1-bulk-data-imports--inserts">Example 1: Bulk data imports / inserts</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="nv">"public"</span><span class="p">.</span><span class="nv">"product"</span> <span class="p">(</span><span class="n">unique_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
+<span class="k">VALUES</span>
+    <span class="p">(</span><span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="err">$</span><span class="mi">3</span><span class="p">,</span> <span class="err">$</span><span class="mi">4</span><span class="p">),</span>   <span class="c1">-- Item 1</span>
+    <span class="p">(</span><span class="err">$</span><span class="mi">5</span><span class="p">,</span> <span class="err">$</span><span class="mi">6</span><span class="p">,</span> <span class="err">$</span><span class="mi">7</span><span class="p">,</span> <span class="err">$</span><span class="mi">8</span><span class="p">),</span>   <span class="c1">-- Item 2</span>
+    <span class="p">(</span><span class="err">$</span><span class="mi">9</span><span class="p">,</span> <span class="err">$</span><span class="mi">10</span><span class="p">,</span> <span class="err">$</span><span class="mi">11</span><span class="p">,</span> <span class="err">$</span><span class="mi">12</span><span class="p">),</span> <span class="c1">-- Item 3</span>
+    <span class="c1">-- ... (thousands of rows)</span>
+    <span class="p">(</span><span class="err">$</span><span class="mi">100000</span><span class="p">,</span> <span class="err">$</span><span class="mi">100001</span><span class="p">,</span> <span class="err">$</span><span class="mi">100002</span><span class="p">,</span> <span class="err">$</span><span class="mi">100003</span><span class="p">)</span> <span class="c1">-- Item N</span>
+<span class="k">ON</span> <span class="n">CONFLICT</span> <span class="p">(</span><span class="n">unique_id</span><span class="p">)</span> <span class="k">DO</span> <span class="k">NOTHING</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>In this scenario, attempting to insert too many items at once may exceed the parameter limit, resulting in an error. This becomes particularly problematic when handling conflicts (e.g., using ON CONFLICT DO NOTHING), as it requires specifying each parameter individually.</p>
+
+<h2 id="example-2-queries-with-complex-conditions">Example 2: Queries with complex conditions</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="k">public</span><span class="p">.</span><span class="n">product</span>
+<span class="k">WHERE</span> <span class="n">id</span> <span class="k">IN</span> <span class="p">(</span><span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="err">$</span><span class="mi">3</span><span class="p">,</span> <span class="p">...,</span> <span class="err">$</span><span class="mi">100000</span><span class="p">)</span>
+<span class="k">AND</span> <span class="n">price</span> <span class="k">BETWEEN</span> <span class="err">$</span><span class="mi">100001</span> <span class="k">AND</span> <span class="err">$</span><span class="mi">100002</span>
+<span class="k">AND</span> <span class="n">category</span> <span class="o">=</span> <span class="err">$</span><span class="mi">100003</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>In this case, specifying a large number of IDs in the IN clause may cause the query to exceed the parameter limit, resulting in errors. This situation might arise when you need to validate a large set of IDs before further processing.</p>
+
+<h1 id="why-postgresqls-copy-is-not-the-solution-here">Why PostgreSQL’s ‘COPY’ is not the solution here</h1>
+
+<p>The COPY command in PostgreSQL is efficient for bulk data operations but comes with significant limitations. Specifically, it restricts the ability to include additional conflict checks or PostgreSQL clauses directly within the insert operation.</p>
+
+<p>Similarly, in the case of complex queries, such as those involving large IN clauses or multiple conditions, the COPY command alone is insufficient.</p>
+
+<h1 id="solution-by-using-jsonb_to_recordset">Solution by using ‘jsonb_to_recordset’</h1>
+
+<p>By using this function, you can pass the entire data batch as a single parameter, avoiding SQL injection risks associated with pasting raw, unparameterized data directly into the query.</p>
+
+<p>Postgresql.org reference <a href="https://www.postgresql.org/docs/9.5/functions-json.html">PostgreSQL: Documentation: 9.5: JSON Functions and Operators</a></p>
+
+<p>Official Description of ‘jsonb_to_recordset’: <code class="language-plaintext highlighter-rouge">Builds an arbitrary set of records from a JSON array of objects. As with all functions returning record, the caller must explicitly define the structure of the record with an AS clause.</code></p>
+
+<h2 id="how-to-use-jsonb_to_recordset">How to use ‘jsonb_to_recordset’</h2>
+
+<p>JSON input</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w"> </span><span class="nl">"a"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nl">"b"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo"</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w"> </span><span class="nl">"a"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w"> </span><span class="nl">"c"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bar"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Constructed query</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="o">*</span> <span class="k">from</span>
+<span class="n">jsonb_to_recordset</span><span class="p">(</span><span class="s1">'[
+  { "a": 1, "b": "foo" },
+  { "a": "2", "c": "bar" }
+]'</span><span class="p">)</span>
+<span class="k">as</span> <span class="n">x</span><span class="p">(</span><span class="n">a</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span> <span class="nb">text</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Result</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> a |  b
+---+-----
+ 1 | foo
+ 2 |
+</code></pre></div></div>
+
+<h1 id="implementing-the-solution-on-examples-above">Implementing the solution on examples above</h1>
+
+<h2 id="example-1">Example 1</h2>
+
+<p>JSON input</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w"> </span><span class="nl">"unique_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid1"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"item1"</span><span class="p">,</span><span class="w"> </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.5</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w"> </span><span class="nl">"unique_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid2"</span><span class="p">,</span><span class="w"> </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"item2"</span><span class="p">,</span><span class="w"> </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Constructed query</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">WITH</span> <span class="k">data</span> <span class="k">as</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">jsonb_to_recordset</span><span class="p">(</span><span class="err">$</span><span class="mi">1</span><span class="p">::</span><span class="n">jsonb</span><span class="p">)</span>
+  <span class="k">AS</span> <span class="n">x</span><span class="p">(</span><span class="n">unique_id</span> <span class="n">uuid</span><span class="p">,</span> <span class="n">name</span> <span class="nb">text</span><span class="p">,</span> <span class="n">quantity</span> <span class="nb">int</span><span class="p">,</span> <span class="n">price</span> <span class="nb">numeric</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="nv">"public"</span><span class="p">.</span><span class="nv">"product"</span> <span class="p">(</span><span class="n">unique_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
+<span class="k">SELECT</span> <span class="n">unique_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">price</span>
+<span class="k">FROM</span> <span class="k">data</span>
+<span class="k">ON</span> <span class="n">CONFLICT</span> <span class="p">(</span><span class="n">unique_id</span><span class="p">)</span> <span class="k">DO</span> <span class="k">NOTHING</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="example-2">Example 2</h2>
+
+<p>JSON input</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"min_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"max_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"electronics"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid2"</span><span class="p">,</span><span class="w"> </span><span class="nl">"min_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nl">"max_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"books"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Constructed query</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">WITH</span> <span class="n">filter_conditions</span> <span class="k">as</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">jsonb_to_recordset</span><span class="p">(</span><span class="err">$</span><span class="mi">1</span><span class="p">::</span><span class="n">jsonb</span><span class="p">)</span>
+  <span class="k">AS</span> <span class="n">x</span><span class="p">(</span><span class="n">id</span> <span class="n">uuid</span><span class="p">,</span> <span class="n">min_price</span> <span class="nb">numeric</span><span class="p">,</span> <span class="n">max_price</span> <span class="nb">numeric</span><span class="p">,</span> <span class="n">category</span> <span class="nb">text</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="k">public</span><span class="p">.</span><span class="n">product</span> <span class="n">p</span>
+<span class="k">JOIN</span> <span class="n">filter_conditions</span> <span class="n">fc</span>
+  <span class="k">ON</span> <span class="n">p</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">fc</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span> <span class="n">p</span><span class="p">.</span><span class="n">price</span> <span class="k">BETWEEN</span> <span class="n">fc</span><span class="p">.</span><span class="n">min_price</span> <span class="k">AND</span> <span class="n">fc</span><span class="p">.</span><span class="n">max_price</span>
+<span class="k">AND</span> <span class="n">p</span><span class="p">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">fc</span><span class="p">.</span><span class="n">category</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h1 id="key-takeaways">Key Takeaways</h1>
+
+<p>Although I have not tested it, I am confident that PostgreSQL’s ‘COPY’ command will outperform this solution if it meets your use case requirements..</p>
+
+<p>Furthermore, if you supply a very large amount of data using the <code class="language-plaintext highlighter-rouge">jsonb_to_recordset</code> function, you may encounter connection timeouts. This is because the query may take too long to compare, process, or insert the data, depending on the implementation.</p>
+
+<p>If you start encountering connection timeouts, it may be time to reconsider whether this is the best approach or if there is significant room for improvement in the database structure itself (e.g., tables, indexes).</p>
+
+<p>If time is limited or optimizing the specified aspects seems impossible, you can always resort to the final option: batching.</p>
+
+<h1 id="resources">Resources:</h1>
+
+<ul>
+  <li><a href="https://www.postgresql.org/docs/9.5/functions-json.html">PostgreSQL: Documentation: 9.5: JSON Functions and Operators</a></li>
+  <li><a href="https://gajus.medium.com/how-a-few-lines-of-code-reduced-database-load-by-a-few-million-queries-964d43ec668a">How a few lines of code reduced database load by a few million queries
+</a></li>
+  <li><a href="https://neon.tech/docs/functions/jsonb_to_record">Postgres jsonb_to_record() function</a></li>
+  <li><a href="https://docs.yugabyte.com/preview/api/ysql/datatypes/type_json/functions-operators/jsonb-to-recordset/">jsonb_to_recordset() and json_to_recordset()</a></li>
+  <li><a href="https://www.commandprompt.com/education/postgresql-json_to_recordset-function/">PostgreSQL json_to_recordset() Function</a></li>
+</ul>]]></content><author><name></name></author><category term="sql" /><category term="parameter" /><category term="limit" /><category term="error" /><category term="postgressql" /><category term="postgres" /><category term="jsonb_to_recordset" /><category term="insert" /><category term="batch" /><summary type="html"><![CDATA[Potential causes/examples for the error]]></summary></entry><entry><title type="html">Hi There! My First Blog Entry</title><link href="http://localhost:4000/typescript/testing/2025/01/25/first-test-blogpost.html" rel="alternate" type="text/html" title="Hi There! My First Blog Entry" /><published>2025-01-25T01:23:37+01:00</published><updated>2025-01-25T01:23:37+01:00</updated><id>http://localhost:4000/typescript/testing/2025/01/25/first-test-blogpost</id><content type="html" xml:base="http://localhost:4000/typescript/testing/2025/01/25/first-test-blogpost.html"><![CDATA[<p>Hi there! This is my first blog entry, and its entire purpose is for testing and setting up my blog. I used <a href="https://jekyllrb.com/">Jekyll</a> as the base for this blog, and I’m hosting it directly on GitHub Pages. It’s a simple yet powerful solution for anyone looking to set up a personal blog.</p>]]></content><author><name></name></author><category term="typescript" /><category term="testing" /><summary type="html"><![CDATA[Hi there! This is my first blog entry, and its entire purpose is for testing and setting up my blog. I used Jekyll as the base for this blog, and I’m hosting it directly on GitHub Pages. It’s a simple yet powerful solution for anyone looking to set up a personal blog.]]></summary></entry></feed>
